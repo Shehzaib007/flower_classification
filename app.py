@@ -26,6 +26,19 @@ FLOWERS = {
                   "fact": "In 17th-century Holland, tulip bulbs were so valuable they were traded like gold."},
 }
 
+# Project links (edit the labels here if you like)
+LINKS = [
+    {"icon": "🌐", "label": "Live App",
+     "desc": "Open the deployed web app",
+     "url": "https://flowerclassification01.streamlit.app/"},
+    {"icon": "📁", "label": "Project File",
+     "desc": "View the file on Google Drive",
+     "url": "https://drive.google.com/file/d/1RV6hphcY9I6nCKSaIqSsgQRGLoqb5Mz2/view?usp=drive_link"},
+    {"icon": "📊", "label": "Presentation",
+     "desc": "View the project slides",
+     "url": "https://docs.google.com/presentation/d/1VDhBnrQzXjfvuXAyWYOQC2R5-ZNw_OGl/edit?usp=drive_link&ouid=104317572637074554973&rtpof=true&sd=true"},
+]
+
 st.set_page_config(page_title="Flower Recognition AI", page_icon="🌸", layout="wide")
 
 # ----------------------------------------------------------------
@@ -83,6 +96,25 @@ CSS = """
 .empty .big {font-size: 3.5rem;}
 .footer {text-align: center; color: #9ca3af; font-size: .85rem; margin-top: 2rem;}
 
+.link-card {
+    display: block; background: #ffffff; border-radius: 18px; padding: 1.1rem 1.2rem;
+    text-decoration: none !important; box-shadow: 0 6px 20px rgba(80, 60, 120, 0.10);
+    border: 2px solid transparent; transition: all .2s ease; height: 100%;
+}
+.link-card:hover {
+    transform: translateY(-4px); border-color: #ff6b9d;
+    box-shadow: 0 12px 28px rgba(255, 107, 157, 0.25);
+}
+.link-icon  {font-size: 2rem; line-height: 1;}
+.link-title {font-weight: 700; color: #1f2937; font-size: 1.05rem; margin-top: .4rem;}
+.link-desc  {color: #6b7280; font-size: .88rem;}
+.side-link {
+    display: block; background: #ffffff; border-radius: 12px; padding: .55rem .9rem;
+    margin-bottom: .5rem; text-decoration: none !important; color: #374151 !important;
+    font-weight: 600; box-shadow: 0 2px 8px rgba(0,0,0,.08); transition: all .2s ease;
+}
+.side-link:hover {background: #ff6b9d; color: #ffffff !important;}
+
 div[data-testid="stImage"] img {border-radius: 18px;}
 </style>
 """
@@ -106,6 +138,11 @@ with st.sidebar:
         "- Keep one flower in the centre\n"
         "- Avoid heavy filters or blur"
     )
+    st.markdown("---")
+    st.markdown("**🔗 Project links**")
+    st.markdown("".join(
+        f"<a class='side-link' href='{l['url']}' target='_blank'>{l['icon']} {l['label']}</a>"
+        for l in LINKS), unsafe_allow_html=True)
     st.markdown("---")
     with st.expander("Debug info"):
         st.write("Python:", sys.version.split()[0])
@@ -248,6 +285,19 @@ else:
         """,
         unsafe_allow_html=True,
     )
+
+st.markdown("<p class='section-title' style='margin-top:2rem'>🔗 Project resources</p>",
+            unsafe_allow_html=True)
+link_cols = st.columns(len(LINKS), gap="medium")
+for col, l in zip(link_cols, LINKS):
+    with col:
+        st.markdown(
+            f"<a class='link-card' href='{l['url']}' target='_blank'>"
+            f"<div class='link-icon'>{l['icon']}</div>"
+            f"<div class='link-title'>{l['label']}</div>"
+            f"<div class='link-desc'>{l['desc']}</div></a>",
+            unsafe_allow_html=True,
+        )
 
 st.markdown("<div class='footer'>Built with TensorFlow &amp; Streamlit 🌱</div>",
             unsafe_allow_html=True)
