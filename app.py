@@ -45,9 +45,16 @@ st.write("Upload a photo of a flower and the CNN will tell you what it is. "
 
 if not os.path.exists(MODEL_PATH):
     st.error(f"Model file `{MODEL_PATH}` not found. Place it in the same folder as `app.py`.")
+    st.write("Files in this folder:", sorted(os.listdir(".")))
     st.stop()
 
-model = load_model(MODEL_PATH)
+try:
+    model = load_model(MODEL_PATH)
+except Exception as e:
+    st.error("The model file was found but could not be loaded. Details below:")
+    st.exception(e)
+    st.caption(f"TensorFlow version running here: {tf.__version__}")
+    st.stop()
 
 source = st.radio("Image source", ["Upload", "Camera"], horizontal=True)
 if source == "Upload":
